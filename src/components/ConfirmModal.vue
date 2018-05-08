@@ -7,30 +7,31 @@
                :append-to-body="appendToBody"
                :visible="showModal"
                :width="'50%'"
-               :before-close="beforeCloseNative">
+               :before-close="beforeCloseNative"
+                v-bind="$attrs">
         <slot>
             <span>{{ message }}</span>
         </slot>
         <span slot="footer" class="dialog-footer">
     <slot name="footer">
-       <el-button id="save-button" type="success" :loading="loading" @click.native="confirm">
+       <button id="vue-confirm-modal--confirm-button" @click="confirm">
          {{ confirmLabel }}
-       </el-button>
-      <el-button id="close-button" type="danger" @click.native="close">
+       </button>
+      <button id="vue-confirm-modal--close-button" type="danger" @click="close">
         {{ cancelLabel }}
-      </el-button>
+      </button>
     </slot>
     </span>
     </el-dialog>
 </template>
 <script>
-    import { Dialog, Button } from 'element-ui';
+    import Dialog from '@/components/ElDialog';
+    import {events} from '@/events';
 
     export default {
         name: 'Confirm',
         components: {
-            [Dialog.name]: Dialog,
-            [Button.name]: Button
+            [Dialog.name]: Dialog
         },
         props: {
             title: {
@@ -164,10 +165,14 @@
                 await this.beforeCloseNative(() => {
                 });
             }
+        },
+        mounted() {
+            events.$on('show', this.show);
         }
     };
 </script>
 <style lang="scss">
+    @import '../assets/scss/el-dialog.scss';
     .vue-confirm-modal {
         .el-dialog {
             .el-dialog__title {

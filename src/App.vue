@@ -1,18 +1,23 @@
 <template>
     <div id="app">
-        <img src="./assets/logo.png">
-        <confirm-modal ref="confirm" message="Hey modal" :visible="true"></confirm-modal>
-        <button @click="$refs.confirm.show()">Show modal</button>
+        <vue-confirm-modal ref="confirm" message="Hey modal"></vue-confirm-modal>
+        <button @click="showModal">Show modal</button>
     </div>
 </template>
 
 <script>
-    import ConfirmModal from '@/components/ConfirmModal'
-
     export default {
         name: 'app',
-        components: {
-            ConfirmModal
+        components: {},
+        methods: {
+            showModal() {
+                this.$refs.confirm.show().ok(() => {
+                    console.log('Ok');
+                }).cancel(() => {
+                    console.log('Cancel');
+
+                })
+            }
         }
     }
 </script>
